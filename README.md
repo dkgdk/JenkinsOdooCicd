@@ -1,34 +1,40 @@
-# Jenkins Odoo CI/CD (Pipeline-as-Code)
+# 🚀 Jenkins Odoo CI/CD Project
 
-## What this project provides
-- `Jenkinsfile` - Declarative pipeline that:
-  - Accepts repo URL and GitHub token as parameters (or reads `repos.txt`)
-  - Polls every 5 minutes for changes (SCM polling)
-  - Clones module repos, runs a basic python syntax check, and if changes are detected:
-    - rsyncs the module into the host `MOUNT_PATH` (the volume path mounted in your Odoo container)
-    - restarts the Odoo docker container
-  - Sends notification emails using the `emailext` plugin when changes occur or on failures.
-- `module_update.sh` - helper script for manual testing / one-off deploys.
-- `repos.txt` - optional file listing module repositories (one per line)
+This project automates the deployment of **Odoo custom modules** using **Jenkins Pipeline (as code)**.  
+It pulls modules from GitHub, validates them, updates the Odoo container, restarts it, and sends an email when changes are detected.
 
-## Assumptions & prerequisites
-1. Jenkins agent has Docker CLI permissions and can run `docker restart` on the Odoo container.
-2. The host path (e.g. `/mnt/extra-addons`) is mounted as a volume in your Odoo container.
-3. Jenkins has the Email Extension plugin (`emailext`) configured (SMTP). Configure SMTP in Jenkins global settings.
-4. Python is available in the Jenkins agent for basic syntax checking.
+---
 
-## Quick setup
-1. Put `Jenkinsfile` in a pipeline job (Pipeline script from SCM or Multibranch). Add `repos.txt` (one repo per line) in the workspace if you want automatic repos.
-2. Or create a param-based job and set `MANUAL_ADD_REPO` true and provide `REPO_URL` when building.
-3. Configure `CONTAINER_NAME`, `MOUNT_PATH`, and `NOTIFY_EMAIL` parameters as needed.
-4. Ensure the Jenkins user can write to `MOUNT_PATH` (or adjust chown in the Jenkinsfile).
+## 🧩 What It Does
+- Pulls or clones your Odoo module from GitHub  
+- Checks for syntax or code errors  
+- Copies modules to your Odoo container’s `/mnt/extra-addons` path  
+- Restarts the Odoo container automatically  
+- Sends an email if there are new changes or errors  
+- Checks for new commits every 5 minutes (SCM Polling)
 
-## Using the helper script
+---
+
+## 📂 Project Files
+| File | Description |
+|------|--------------|
+| **Jenkinsfile** | Main pipeline script for Jenkins |
+| **module_update.sh** | Script that validates, syncs, and restarts Odoo container |
+| **repos.txt** | List of module repos for auto polling (one per line) |
+| **README.md** | You’re reading it :) |
+
+---
+
+## ⚙️ Prerequisites
+- Jenkins installed and running  
+- Docker installed  
+- Odoo container running (example: `odoo16`)  
+- Gmail or any SMTP setup for Jenkins email notifications  
+
+---
+
+## 🐳 Start Your Odoo Container
 ```bash
-chmod +x module_update.sh
-./module_update.sh https://github.com/your/module.git /mnt/extra-addons odoo16 YOUR_GITHUB_TOKEN
-```
-
-## Note
-- The pipeline uses a simple git commit hash comparison persisted in workspace hidden files to detect changes between runs.
-- You may adapt validation to run unit tests, flake8, or odoo-specific checks.
+docker run -d --name odoo16 \
+  -v /mnt/extra-addons:/mnt/extra-addons \
+  -p 8069:8069 odoo:16.0
