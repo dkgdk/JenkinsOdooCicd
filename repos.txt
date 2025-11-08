@@ -1,0 +1,3 @@
+# Add one git repo URL per line, for automatic polling deployments.
+# Example:
+# https://github.com/your-org/odoo-module-1.git
