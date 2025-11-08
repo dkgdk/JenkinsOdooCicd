@@ -1,11 +1,11 @@
-# 🚀 Jenkins Odoo CI/CD Project
+# Jenkins Odoo CI/CD Project
 
 This project automates the deployment of **Odoo custom modules** using **Jenkins Pipeline (as code)**.  
 It pulls modules from GitHub, validates them, updates the Odoo container, restarts it, and sends an email when changes are detected.
 
 ---
 
-## 🧩 What It Does
+## What It Does
 - Pulls or clones your Odoo module from GitHub  
 - Checks for syntax or code errors  
 - Copies modules to your Odoo container’s `/mnt/extra-addons` path  
@@ -15,7 +15,7 @@ It pulls modules from GitHub, validates them, updates the Odoo container, restar
 
 ---
 
-## 📂 Project Files
+## Project Files
 | File | Description |
 |------|--------------|
 | **Jenkinsfile** | Main pipeline script for Jenkins |
@@ -25,7 +25,7 @@ It pulls modules from GitHub, validates them, updates the Odoo container, restar
 
 ---
 
-## ⚙️ Prerequisites
+## Prerequisites
 - Jenkins installed and running  
 - Docker installed  
 - Odoo container running (example: `odoo16`)  
