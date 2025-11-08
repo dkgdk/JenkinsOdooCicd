@@ -33,7 +33,7 @@ It pulls modules from GitHub, validates them, updates the Odoo container, restar
 
 ---
 
-## 🐳 Start Your Odoo Container
+## Start Your Odoo Container
 ```bash
 docker run -d --name odoo16 \
   -v /mnt/extra-addons:/mnt/extra-addons \
